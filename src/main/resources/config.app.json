@@ -1,0 +1,5 @@
+{
+    "ConnIdleAllowed": true, /* idle thread */
+    "DefaultMaxPerRoute": 50,
+    "MaxTotal": 100
+}

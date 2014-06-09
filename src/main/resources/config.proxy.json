@@ -1,0 +1,40 @@
+[
+    {
+        "@type": "wong.spance.gothrough.proxy.ProxyFetchAction",
+        "proxyPathSelectors": [
+            {
+                "@type": "wong.spance.gothrough.proxy.ProxyPathSelector",
+                "src": "^/!(.+)$",
+                "target": "$1"
+            },
+            {
+                "@type": "wong.spance.gothrough.proxy.ProxyPathSelector",
+                "src": "^(.*)$",
+                "target": "http://www.google.com$1"
+            }
+        ],
+        "contentRules": [
+            {
+                "@type": "wong.spance.gothrough.process.ContentReplaceProcessor",
+                "contentTypePattern": "(text|json|java)+",
+                "contentProcessors": [
+                    {
+                        "@type": "wong.spance.gothrough.process.ReplaceRule",
+                        "pattern": "onmousedown\\\\\\\\x3d\\\\\\\\x22.+?\\\\\\\\x22",
+                        "replacement": "target\\\\x3d\\\\x22_blank\\\\x22"
+                    },
+                    {
+                        "@type": "wong.spance.gothrough.process.ReplaceRule",
+                        "pattern": "onmousedown=\"[^\"]+?\"",
+                        "replacement": "target=\"_blank\""
+                    },
+                    {
+                        "@type": "wong.spance.gothrough.process.ReplaceRule",
+                        "pattern": "(?<!:)//(?=\\w{2,}(?:\\.\\w+)+)",
+                        "replacement": "/!"
+                    }
+                ]
+            }
+        ]
+    }
+]
