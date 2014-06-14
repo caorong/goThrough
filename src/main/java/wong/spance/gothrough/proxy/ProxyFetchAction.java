@@ -2,9 +2,9 @@ package wong.spance.gothrough.proxy;
 
 import com.alibaba.fastjson.annotation.JSONCreator;
 import com.alibaba.fastjson.annotation.JSONField;
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
-import org.apache.http.entity.ContentType;
 import wong.spance.gothrough.process.ContentProcessor;
 import wong.spance.gothrough.process.ProcessState;
 import wong.spance.gothrough.utils.HttpUtils;
@@ -41,9 +41,11 @@ public class ProxyFetchAction extends ProxyAction {
             if (entity == null) {
                 return;
             }
-            String contentType = ContentType.getOrDefault(entity).toString();
+            Header _contentType = entity.getContentType();
+            String contentType = _contentType != null ? _contentType.getValue() : null;
+            String targetUri = proxyContext.getTargetUriString();
             for (ContentProcessor processor : contentRules) {
-                if (processor.accept(contentType))
+                if (processor.accept(targetUri, contentType))
                     processor.process(proxyContext);
             }
             if (proxyContext.isProcessed()) {

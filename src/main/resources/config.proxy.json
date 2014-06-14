@@ -1,4 +1,5 @@
 [
+    /* Proxy 配置 */
     {
         "@type": "wong.spance.gothrough.proxy.ProxyFetchAction",
         "proxyPathSelectors": [
@@ -6,32 +7,49 @@
                 "@type": "wong.spance.gothrough.proxy.ProxyPathSelector",
                 "src": "^/!(.+)$",
                 "target": "$1"
+                /* 绝对地址 */
             },
             {
                 "@type": "wong.spance.gothrough.proxy.ProxyPathSelector",
-                "src": "^(.*)$",
-                "target": "http://www.google.com$1"
+                "src": "^.*$",
+                "target": "http://www.google.com$0"
             }
         ],
         "contentRules": [
             {
                 "@type": "wong.spance.gothrough.process.ContentReplaceProcessor",
-                "contentTypePattern": "(text|json|java)+",
+                "targetUriPattern": "(?:/search|/webhp|/$)",
+                "contentTypePattern": "/html",
                 "contentProcessors": [
-                    {
-                        "@type": "wong.spance.gothrough.process.ReplaceRule",
-                        "pattern": "onmousedown\\\\\\\\x3d\\\\\\\\x22.+?\\\\\\\\x22",
-                        "replacement": "target\\\\x3d\\\\x22_blank\\\\x22"
-                    },
                     {
                         "@type": "wong.spance.gothrough.process.ReplaceRule",
                         "pattern": "onmousedown=\"[^\"]+?\"",
                         "replacement": "target=\"_blank\""
+                        /* 换掉rwt */
+                    },
+                    {
+                        "@type": "wong.spance.gothrough.process.ReplaceRule",
+                        "pattern": ",pushdown_promo:'[^']+?'",
+                        "replacement": ""
+                        /* 滤掉广告 */
                     },
                     {
                         "@type": "wong.spance.gothrough.process.ReplaceRule",
                         "pattern": "(?<!:)//(?=\\w{2,}(?:\\.\\w+)+)",
                         "replacement": "/!"
+                        /* 重写绝对地址 */
+                    }
+                ]
+            },
+            {
+                "@type": "wong.spance.gothrough.process.ContentReplaceProcessor",
+                "targetUriPattern": "/search",
+                "contentTypePattern": "/json",
+                "contentProcessors": [
+                    {
+                        "@type": "wong.spance.gothrough.process.ReplaceRule",
+                        "pattern": "onmousedown\\\\\\\\x3d\\\\\\\\x22.+?\\\\\\\\x22",
+                        "replacement": "target\\\\\\\\x3d\\\\\\\\x22_blank\\\\\\\\x22"
                     }
                 ]
             }

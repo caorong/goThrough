@@ -1,3 +1,4 @@
+<%@ page import="java.util.Enumeration" %>
 <%@ page import="java.util.Map" %>
 <%--
 Created by IntelliJ IDEA.
@@ -18,6 +19,15 @@ To change this template use File | Settings | File Templates.
     </style>
 </head>
 <body>
+<h1>Headers</h1>
+<table>
+    <%
+        for (Enumeration<String> eu = request.getHeaderNames(); eu.hasMoreElements(); ) {
+            String key = eu.nextElement();
+            out.println(String.format("<tr><td>%s</td><td>%s</td></tr>", key, request.getHeader(key)));
+        }
+    %>
+</table>
 <h1>env</h1>
 <table>
     <%

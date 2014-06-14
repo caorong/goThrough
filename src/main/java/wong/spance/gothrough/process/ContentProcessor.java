@@ -16,15 +16,21 @@ public abstract class ContentProcessor {
     protected final static Logger log = LoggerFactory.getLogger(ContentProcessor.class);
 
     protected final Pattern contentTypePattern;
+    protected final Pattern targetUriPattern;
     protected final List<ProcessRule> processRules;
 
-    protected ContentProcessor(String contentType, List<ProcessRule> processRules) {
-        this.contentTypePattern = Pattern.compile(contentType);
+    protected ContentProcessor(String targetUriPattern, String contentType, List<ProcessRule> processRules) {
+        this.targetUriPattern = targetUriPattern == null ? null : Pattern.compile(targetUriPattern);
+        this.contentTypePattern = contentType == null ? null : Pattern.compile(contentType);
         this.processRules = processRules;
     }
 
-    public boolean accept(String contentType) {
-        return contentTypePattern.matcher(contentType).find();
+    public boolean accept(String targetUri, String contentType) {
+        if (targetUriPattern == null || !targetUriPattern.matcher(targetUri).find())
+            return false;
+        if (contentTypePattern == null || !contentTypePattern.matcher(contentType).find())
+            return false;
+        return true;
     }
 
     public void process(ProxyContext proxyContext) throws IOException {
