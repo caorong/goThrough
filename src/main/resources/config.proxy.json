@@ -43,6 +43,19 @@
             },
             {
                 "@type": "wong.spance.gothrough.process.ContentReplaceProcessor",
+                "targetUriPattern": "xjs",
+                "contentTypePattern": ".*",
+                "contentProcessors": [
+                    {
+                        "@type": "wong.spance.gothrough.process.ReplaceRule",
+                        "pattern": "(?<!:)//(?=www\\.google\\.com)",
+                        "replacement": "/!"
+                        /* 重写xjs,rs绝对地址 */
+                    }
+                ]
+            },
+            {
+                "@type": "wong.spance.gothrough.process.ContentReplaceProcessor",
                 "targetUriPattern": "/search",
                 "contentTypePattern": "/json",
                 "contentProcessors": [
