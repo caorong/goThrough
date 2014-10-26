@@ -20,6 +20,7 @@
 
 ## Demo
 
-常规用户，可以直接使用作者提供的受SSL加密保护的服务 https://go.lambda.ga 
-有能力的童鞋可以建立自己的通道。
+~~常规用户，可以直接使用作者提供的受SSL加密保护的服务...有能力的童鞋可以建立自己的通道。~~
+
+本项目已不在继续维护，如有需要，请移步Nodejs的实现版本[https://github.com/spance/AirGoo](https://github.com/spance/AirGoo)
 
