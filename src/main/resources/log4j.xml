@@ -16,7 +16,7 @@
 
     <appender name="logfile" class="org.apache.log4j.DailyRollingFileAppender">
         <param name="Append" value="true"/>
-        <param name="File" value="${log.path}/app.log"/>
+        <param name="File" value="/var/log/goThrough/app.log"/>
         <param name="DatePattern" value="'.'yyyy-MM-dd'.log'"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%p %d{yyyy-MM-dd HH:mm:ss} [%t] %c - %m%n"/>
